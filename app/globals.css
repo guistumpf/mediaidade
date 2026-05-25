@@ -119,15 +119,18 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
+
+  html, body {
+    width: 100%;
+    height: 100%;          /* ← adiciona isso */
+    overflow-x: hidden;
+    margin: 0;
+  }
+
   body {
     @apply bg-background text-foreground;
-  }
-  button:not(:disabled), [role="button"]:not(:disabled) {
-    cursor: pointer;
-  }
-  html {
-    @apply font-sans;
+    min-height: 100dvh;    /* ← troca min-h-dvh pelo valor direto */
   }
 }
