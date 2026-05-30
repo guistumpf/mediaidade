@@ -30,28 +30,39 @@ export default function CardDemo({ children }: { children: ReactNode }) {
   const [nome, setnome] = useState("")
   const [idade, setidade] = useState<number | "">("")
 
-  useEffect(() => {
-    const sent = localStorage.getItem("enviado em")
+useEffect(() => {
+  const STORAGE_KEY = "enviando";
+  const sent = localStorage.getItem(STORAGE_KEY);
 
-    if (!sent) {
-      setdes(false)
-      return
-    }
+  if (!sent) {
+    setdes(false);
+    return;
+  }
 
-    const elapsed = Date.now() - Number(sent)
-    setdes(elapsed < 10000)
-  }, [])
+  const elapsed = Date.now() - Number(sent);
 
-  useEffect(() => {
-    const sent = localStorage.getItem("enviado em")
-    if (!sent) return
-    const elapsed = Date.now() - Number(sent)
-    const remaining = 10000 - elapsed
-    if (remaining > 0) {
-      const t = setTimeout(() => setdes(false), remaining)
-      return () => clearTimeout(t)
-    }
-  }, [])
+  if (elapsed >= 10000) {
+    localStorage.removeItem(STORAGE_KEY);
+    setdes(false);
+    return;
+  }
+
+  setdes(true);
+
+  const remaining = 10000 - elapsed;
+
+  const timeout = setTimeout(() => {
+    setdes(false);
+    localStorage.removeItem(STORAGE_KEY);
+  }, remaining);
+
+console.log("saved:", sent);
+console.log("elapsed:", elapsed);
+
+  return () => clearTimeout(timeout);
+
+
+}, []);
 
   async function HandleSubmit() {
     if (idade === "" || typeof idade !== "number") {
@@ -69,14 +80,14 @@ export default function CardDemo({ children }: { children: ReactNode }) {
     const nomeFormatado = nome.trim() === "" ? "Anônimo" : nome;
     await AddInput(nomeFormatado, idade);
     alert("Idade enviada! Aguarde 10 segundos para fazer outra submissão.")
-    localStorage.setItem("enviando em ", String(Date.now()))
+    localStorage.setItem("enviando", String(Date.now()))
     setdes(true)
     setTimeout(() => setdes(false), 10000)
     setidade("")
     setnome("")
-    window.location.reload();
   }
 
+  
   console.log(nome, idade)
   return (
     <>
