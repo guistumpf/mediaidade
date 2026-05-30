@@ -13,11 +13,9 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import Link from "next/link";
 import Inputs from "../components/Input";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { AddInput } from "@/app/actions";
-import { IoIosInformationCircleOutline } from "react-icons/io";
 import { SiGoogleforms } from "react-icons/si";
-import { PiListFill } from "react-icons/pi";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { FaQuestionCircle } from "react-icons/fa";
 import { RiSupabaseFill } from "react-icons/ri";
@@ -31,6 +29,29 @@ export default function CardDemo({ children }: { children: ReactNode }) {
   const [desativado, setdes] = useState(false)
   const [nome, setnome] = useState("")
   const [idade, setidade] = useState<number | "">("")
+
+  useEffect(() => {
+    const sent = localStorage.getItem("enviado em")
+
+    if (!sent) {
+      setdes(false)
+      return
+    }
+
+    const elapsed = Date.now() - Number(sent)
+    setdes(elapsed < 10000)
+  }, [])
+
+  useEffect(() => {
+    const sent = localStorage.getItem("enviado em")
+    if (!sent) return
+    const elapsed = Date.now() - Number(sent)
+    const remaining = 10000 - elapsed
+    if (remaining > 0) {
+      const t = setTimeout(() => setdes(false), remaining)
+      return () => clearTimeout(t)
+    }
+  }, [])
 
   async function HandleSubmit() {
     if (idade === "" || typeof idade !== "number") {
@@ -48,6 +69,7 @@ export default function CardDemo({ children }: { children: ReactNode }) {
     const nomeFormatado = nome.trim() === "" ? "Anônimo" : nome;
     await AddInput(nomeFormatado, idade);
     alert("Idade enviada! Aguarde 10 segundos para fazer outra submissão.")
+    localStorage.setItem("enviando em ", String(Date.now()))
     setdes(true)
     setTimeout(() => setdes(false), 10000)
     setidade("")
@@ -119,31 +141,29 @@ export default function CardDemo({ children }: { children: ReactNode }) {
 
       <div className="fixed bottom-4 right-4 z-50">
         <Dialog>
-          <DialogTrigger>
-            <Button type="button" className="rounded-full w-10 h-10 p-0 cursor-pointer hover:bg-[#7f2400]">
-              <FaQuestionCircle />
-            </Button>
-          </DialogTrigger>
+          <DialogTrigger
+            render={(props) => (
+              <Button {...props} type="button" className="rounded-full w-10 h-10 p-0 cursor-pointer hover:bg-[#7f2400]">
+                <FaQuestionCircle />
+              </Button>
+            )}
+          />
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
-
-
-                <h1 className="flex gap-2 items-center">Olá!
+                <span className="flex gap-2 items-center">Olá!
                   <BiSolidHappyBeaming />
-                </h1>
-
-
+                </span>
               </DialogTitle>
-              <DialogDescription>
-                <h1 className=""> Projeto com components react e banco de dados postgres. Ainda não é um CRUD mas tá valendo!</h1>
+              <DialogDescription render={<div />}>
+                <p className=""> Projeto com components react e banco de dados postgres. Ainda não é um CRUD mas tá valendo!</p>
 
-                <h2 className="mt-2">Projeto criado com muita água e ar! :)</h2>
-                <a href="https://github.com/guistumpf/mediaidade">
+                <p className="mt-2">Projeto criado com muita água e ar! :)</p>
+                <a href="https://github.com/guistumpf/mediaidade" className="w-fit block">
                   <TbSourceCode className="text-2xl mt-2 mb2 cursor-pointer" title="Código Fonte" />
                 </a>
 
-                <h1 className="mb-2 mt-2 font-bold">Tecnologias Utilizadas:</h1>
+                <p className="mb-2 mt-2 font-bold">Tecnologias Utilizadas:</p>
                 <div className="flex justify-center gap-3">
                   <SiNextdotjs className="text-2xl" title="Next.Js" />
                   <RiSupabaseFill className="text-2xl" title="Supabase" />
@@ -158,5 +178,3 @@ export default function CardDemo({ children }: { children: ReactNode }) {
     </>
   )
 }
-
-

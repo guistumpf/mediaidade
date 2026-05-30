@@ -2,11 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "next-themes";
 
-
-
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,20 +22,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: any) {
   return (
-    <>
-      <html lang="en" suppressHydrationWarning>
-        <head />
-        <body>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </body>
-      </html>
-    </>
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head />
+      <body
+        className={cn(
+          inter.variable,
+          geistSans.variable,
+          geistMono.variable,
+          "font-sans antialiased"
+        )}
+      >
+        {children}
+      </body>
+    </html>
   )
 }
