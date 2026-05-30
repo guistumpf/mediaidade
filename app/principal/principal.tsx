@@ -74,6 +74,7 @@ export default function CardDemo({ children }: { children: ReactNode }) {
     setTimeout(() => setdes(false), 10000)
     setidade("")
     setnome("")
+    window.location.reload();
   }
 
   console.log(nome, idade)
