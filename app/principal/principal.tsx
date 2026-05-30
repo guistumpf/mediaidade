@@ -131,17 +131,18 @@ export default function CardDemo({ children }: { children: ReactNode }) {
 
                 <h1 className="flex gap-2 items-center">Olá!
                   <BiSolidHappyBeaming />
-                  </h1>
+                </h1>
 
 
               </DialogTitle>
               <DialogDescription>
-                <h1 className=""> Projeto com components react e banco de dados postgres. </h1>
+                <h1 className=""> Projeto com components react e banco de dados postgres. Ainda não é um CRUD mas tá valendo!</h1>
 
-                <h2 className="">Projeto criado com muita água e ar! :)</h2>
-                <div className="mt-2 mb2">
-                  <TbSourceCode className="text-4xl cursor-pointer" title="Código Fonte" />
-                </div>
+                <h2 className="mt-2">Projeto criado com muita água e ar! :)</h2>
+                <a href="https://github.com/guistumpf/mediaidade">
+                  <TbSourceCode className="text-2xl mt-2 mb2 cursor-pointer" title="Código Fonte" />
+                </a>
+
                 <h1 className="mb-2 mt-2 font-bold">Tecnologias Utilizadas:</h1>
                 <div className="flex justify-center gap-3">
                   <SiNextdotjs className="text-2xl" title="Next.Js" />
