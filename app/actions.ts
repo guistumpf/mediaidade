@@ -9,5 +9,5 @@ export async function AddInput(nome?: string, idade?: number) {
 }
 
 export async function AVG() {
-    await db.execute(sql`SELECT AVG(idade) FROM media`)
+    await db.execute(sql`SELECT AVG(idade) FROM media ORDER BY idade DESC`)
 }
