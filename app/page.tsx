@@ -1,15 +1,20 @@
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Button } from "@base-ui/react"
+import { Button } from "@/components/ui/button"
+import { discoverValidationDepths } from "next/dist/server/app-render/instant-validation/instant-validation"
 
 export default function Home(){
-  return <div>
+  return (
+    <div className="flex justify-center items-center min-h-[100dvh]">
+
      <Card className="w-full max-w-sm mx-4">
           <CardHeader>
             <CardTitle>Média de Idade</CardTitle>
             <CardDescription>
-              Envie sua idade para participar da média!
+               <h1 className="text-center text-white font-bold">
+                Projeto Desativado 
+               </h1>
             </CardDescription>
             <CardAction>
             </CardAction>
@@ -22,29 +27,31 @@ export default function Home(){
                     <Label htmlFor="email">Nome / Apelido</Label>
                     <Input
                       type="text"
-                    disabled
-                      placeholder="Opcional"
-                     />
+                      disabled
+                      placeholder="Desativado"
+                      />
                   </div>
                   <div className="grid gap-2">
                     <div className="flex items-center">
                       <Label htmlFor="password">Idade</Label>
                     </div>
                     <Input
-                    placeholder="Ex: 30"
-                     disabled
+                    placeholder="Desativado"
+                    disabled
                     />
                   </div>
                 </div>
               </form>
             </div >
+            <h1 className="text-center mt-2 mb-0" >A média final foi: 49 anos de idade</h1>
           </CardContent>
           <CardFooter className="flex-col gap-2">
           
-            <Button type="submit" className="w-full cursor-pointer" disabled>
-              
+            <Button type="submit" className="w-full cursor-pointer"  disabled >
+              Envie Sua Idade!
             </Button>
           </CardFooter>
         </Card>
-  </div>
+                    </div>
+ )
 }
